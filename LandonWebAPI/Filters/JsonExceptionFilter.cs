@@ -1,4 +1,4 @@
-﻿using LandonWebAPI.Models;
+﻿using LandonWebAPI.Models.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
