@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LandonWebAPI.Models.DbEntities;
 using LandonWebAPI.Models.DTOs;
+using LandonWebAPI.Models.Form;
 
 namespace LandonWebAPI.Infrastructure.Mapper;
 
@@ -9,11 +10,23 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<RoomEntity, Room>()
-                .ForMember(dest => dest.Rate, opt => opt.MapFrom(src => src.Rate / 100.0m))
-                .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                .ForMember(dest => dest.Rate,
+                           opt => opt.MapFrom(src =>
+                           src.Rate / 100.0m))
+                .ForMember(dest => dest.Self,
+                           opt => opt.MapFrom(src =>
                     Link.To(
                         nameof(Controllers.RoomsController.GetRoomById),
-                        new { roomId = src.Id })));
+                        new { roomId = src.Id })))
+                .ForMember(dest => dest.Book,
+                           opt => opt.MapFrom(src =>
+                           FormMetadata.FromModel(
+                               new BookingForm(),
+                               Link.ToForm(
+                                   nameof(Controllers.RoomsController.CreateBookingForRoomAsync),
+                                   new { roomId = src.Id },
+                                   Link.PostMethod,
+                                   Form.CreateRelation))));
 
         CreateMap<OpeningEntity, Opening>()
             .ForMember(dest => dest.Rate, opt => opt.MapFrom(src => src.Rate / 100m))

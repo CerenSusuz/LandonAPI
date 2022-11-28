@@ -13,4 +13,5 @@ public class Room : Resource
     [SearchableDecimal]
     public decimal Rate { get; set; }
 
+    public LandonWebAPI.Models.Form.Form Book { get; set; }
 }

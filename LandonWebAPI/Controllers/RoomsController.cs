@@ -96,7 +96,7 @@ public class RoomsController : ControllerBase
     [ProducesResponseType(404)]
     [ProducesResponseType(400)]
     [ProducesResponseType(201)]
-    public async Task<ActionResult> CreateBookingForRoom(
+    public async Task<ActionResult> CreateBookingForRoomAsync(
         Guid roomId,
         [FromBody] BookingForm bookingForm)
     {

@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿namespace LandonWebAPI.Infrastructure.Extensions;
 
-namespace LandonApi
+public static class StringExtensions
 {
-    public static class StringExtensions
+    public static string ToCamelCase(this string input)
     {
-        public static string ToCamelCase(this string input)
-        {
-            if (string.IsNullOrEmpty(input)) return input;
+        if (string.IsNullOrEmpty(input)) return input;
 
-            var first = input.Substring(0, 1).ToLower();
-            if (input.Length == 1) return first;
+        var first = input.Substring(0, 1).ToLower();
+        if (input.Length == 1) return first;
 
-            return first + input.Substring(1);
-        }
+        return first + input.Substring(1);
     }
 }
