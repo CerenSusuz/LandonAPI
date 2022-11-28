@@ -1,5 +1,5 @@
 using LandonWebAPI.DataAccess;
-using LandonWebAPI.Filters;
+using LandonWebAPI.Infrastructure.Filters;
 using LandonWebAPI.Infrastructure.Mapper;
 using LandonWebAPI.Models.DTOs;
 using LandonWebAPI.Models.Generic;
@@ -37,6 +37,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddMvc(options =>
     {
+        options.CacheProfiles.Add("Static", new CacheProfile
+        {
+            Duration = 86400
+        });
+
         options.Filters.Add<JsonExceptionFilter>();
         options.Filters.Add<RequireHttpsOrCloseAttribute>();
         options.Filters.Add<LinkRewritingFilter>();
@@ -75,6 +80,8 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     };
 });
 
+builder.Services.AddResponseCaching();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -87,6 +94,10 @@ else
 {
     app.UseHsts();
 }
+
+app.UseResponseCaching();
+
+app.UseMvc();
 
 app.UseCors();
 

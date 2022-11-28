@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Routing;
 using System.Reflection;
 
-namespace LandonWebAPI.Filters;
+namespace LandonWebAPI.Infrastructure.Filters;
 
 public class LinkRewritingFilter : IAsyncResultFilter
 {

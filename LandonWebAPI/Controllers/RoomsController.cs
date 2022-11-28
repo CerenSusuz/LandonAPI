@@ -17,7 +17,7 @@ public class RoomsController : ControllerBase
 {
     private readonly IRoomService _roomService;
     private readonly IOpeningService _openingService;
-    private readonly IBookingService  _bookingService;
+    private readonly IBookingService _bookingService;
     private readonly IDateLogicService _dateLogicService;
     private readonly PagingOptions _defaultPagingOptions;
 
@@ -59,7 +59,7 @@ public class RoomsController : ControllerBase
                 null,
                 Link.GetMethod,
                 Form.QueryRelation));
-       
+
         return collection;
     }
 
@@ -67,12 +67,14 @@ public class RoomsController : ControllerBase
     [HttpGet("openings", Name = nameof(GetAllRoomOpenings))]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
+    [ResponseCache(Duration = 30,
+        VaryByQueryKeys = new[] { "offset", "limit", "orderBy", "search" })]
     public async Task<ActionResult<Collection<Opening>>> GetAllRoomOpenings(
         [FromQuery] PagingOptions pagingOptions,
         [FromQuery] SortOptions<Opening, OpeningEntity> sortOptions)
     {
-        pagingOptions.Offset = pagingOptions.Offset ?? _defaultPagingOptions.Offset;
-        pagingOptions.Limit = pagingOptions.Limit ?? _defaultPagingOptions.Limit;
+        pagingOptions.Offset ??= _defaultPagingOptions.Offset;
+        pagingOptions.Limit ??= _defaultPagingOptions.Limit;
 
         var openings = await _openingService.GetOpeningsAsync(pagingOptions, sortOptions);
 
@@ -99,7 +101,7 @@ public class RoomsController : ControllerBase
         return room;
     }
 
-    [HttpPost("{roomId}/bookings", Name = nameof(CreateBookingForRoom))]
+    [HttpPost("{roomId}/bookings", Name = nameof(CreateBookingForRoomAsync))]
     [ProducesResponseType(404)]
     [ProducesResponseType(400)]
     [ProducesResponseType(201)]
@@ -141,7 +143,7 @@ public class RoomsController : ControllerBase
 
         return Created(
             Url.Link(nameof(BookingsController.GetBookingById),
-            new { bookingId}),
+            new { bookingId }),
             null);
     }
 }

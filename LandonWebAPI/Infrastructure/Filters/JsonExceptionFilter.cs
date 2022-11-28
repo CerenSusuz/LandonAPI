@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace LandonWebAPI.Filters;
+namespace LandonWebAPI.Infrastructure.Filters;
 
 public class JsonExceptionFilter : IExceptionFilter
 {
