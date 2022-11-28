@@ -1,4 +1,5 @@
-﻿using LandonWebAPI.Models.DbEntities;
+﻿using LandonWebAPI.Infrastructure;
+using LandonWebAPI.Models.DbEntities;
 using LandonWebAPI.Models.DTOs;
 using LandonWebAPI.Models.Form;
 using LandonWebAPI.Models.Generic;
@@ -52,7 +53,13 @@ public class RoomsController : ControllerBase
             rooms.TotalSize,
             pagingOptions);
         collection.Openings = Link.ToCollection(nameof(GetAllRoomOpenings));
-
+        collection.RoomsQuery = FormMetadata.FromResource<Room>(
+            Link.ToForm(
+                nameof(GetAllRooms),
+                null,
+                Link.GetMethod,
+                Form.QueryRelation));
+       
         return collection;
     }
 
