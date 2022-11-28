@@ -64,6 +64,20 @@ public class DefaultBookingService : IBookingService
         return id;
     }
 
+    public async Task DeleteBookingAsync(Guid bookingId)
+    {
+        var booking = await _context.Bookings
+             .SingleOrDefaultAsync(booking => booking.Id == bookingId);
+
+        if (booking == null)
+        {
+            return;
+        }
+
+        _context.Bookings.Remove(booking);
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<Booking> GetBookingAsync(Guid bookingId)
     {
         var entity = await _context.Bookings

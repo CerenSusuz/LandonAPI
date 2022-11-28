@@ -28,4 +28,12 @@ public class BookingsController : ControllerBase
             
         return booking;
     }
+
+    [HttpDelete("{bookingId", Name = nameof(DeleteBookingId))]
+    public async Task<IActionResult> DeleteBookingId(Guid bookingId)
+    {
+        await _bookingService.DeleteBookingAsync(bookingId);
+
+        return NoContent();
+    }
 }
